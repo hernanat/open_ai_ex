@@ -8,8 +8,7 @@ defmodule OpenAI.Application do
   @impl true
   def start(_type, _args) do
     children = [
-      # Starts a worker by calling: OpenAI.Worker.start_link(arg)
-      # {OpenAI.Worker, arg}
+      {Finch, name: OpenAI.Finch}
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html

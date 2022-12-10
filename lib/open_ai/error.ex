@@ -3,6 +3,8 @@ defmodule OpenAI.Error do
   Encapsulates errors encountered during requests to the OpenAI API.
   """
 
+  defexception [:message, :code, :param, :type, :raw]
+
   @type t :: %__MODULE__{
           message: binary() | nil,
           code: binary() | nil,
@@ -10,8 +12,6 @@ defmodule OpenAI.Error do
           type: binary() | nil,
           raw: term() | nil
         }
-
-  defexception [:message, :code, :param, :type, :raw]
 
   @impl true
   def exception(%{"message" => msg, "code" => code, "param" => param, "type" => type} = raw) do

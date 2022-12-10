@@ -19,7 +19,5 @@ defmodule OpenAI.Models do
   @spec get(binary()) :: {:ok, map()} | {:error, Error.t()}
   def get(id), do: impl().get(id)
 
-  defp impl do
-    Application.get_env(:open_ai, :models_impl, OpenAI.ModelsImpl)
-  end
+  defp impl, do: Application.get_env(:open_ai, :models_impl, OpenAI.ModelsImpl)
 end

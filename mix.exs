@@ -36,7 +36,7 @@ defmodule OpenAI.MixProject do
   defp package do
     [
       name: "open_ai",
-      files: ["priv", "lib", "config", "mix.exs", "README*", "LICENSE"],
+      files: ["lib", "config", "mix.exs", "README*", "LICENSE.md"],
       licenses: ["MIT"],
       links: %{
         GitHub: "https://github.com/hernanat/open_ai_ex"

@@ -4,10 +4,14 @@ defmodule OpenAI.MixProject do
   def project do
     [
       app: :open_ai,
+      description: "Elixir wrapper for OpenAI's API.",
       version: "0.1.0",
       elixir: "~> 1.14",
       start_permanent: Mix.env() == :prod,
-      deps: deps()
+      deps: deps(),
+      name: "OpenAI API Wrapper",
+      source_url: "https://github.com/hernanat/open_ai_ex",
+      package: package()
     ]
   end
 
@@ -26,6 +30,17 @@ defmodule OpenAI.MixProject do
       {:finch, "~> 0.14"},
       {:jason, "~> 1.3"},
       {:hammox, "~> 0.7", only: :test}
+    ]
+  end
+
+  defp package do
+    [
+      name: "open_ai",
+      files: ["priv", "lib", "config", "mix.exs", "README*", "LICENSE"],
+      licenses: ["MIT"],
+      links: %{
+        GitHub: "https://github.com/hernanat/open_ai_ex"
+      }
     ]
   end
 end

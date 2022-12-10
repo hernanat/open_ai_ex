@@ -1,6 +1,8 @@
 defmodule OpenAI.Models do
   @moduledoc """
-  Provides functions for listing and retrieving OpenAI models."
+  Provides functions for listing and retrieving OpenAI models.
+
+  See OpenAI Models API documentation [here](https://beta.openai.com/docs/api-reference/models).
   """
 
   alias OpenAI.Error
@@ -12,7 +14,7 @@ defmodule OpenAI.Models do
   def list, do: impl().list()
 
   @doc """
-  Retrieves the model with the given ID. See the OpenAI API docs for more details.
+  Retrieves the model with the given ID.
   """
   @spec get(binary()) :: {:ok, map()} | {:error, Error.t()}
   def get(id), do: impl().get(id)

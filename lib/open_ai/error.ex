@@ -1,5 +1,7 @@
 defmodule OpenAI.Error do
-  @moduledoc false
+  @moduledoc """
+  Encapsulates errors encountered during requests to the OpenAI API.
+  """
 
   @type t :: %__MODULE__{
           message: binary() | nil,
@@ -8,6 +10,7 @@ defmodule OpenAI.Error do
           type: binary() | nil,
           raw: term() | nil
         }
+
   defexception [:message, :code, :param, :type, :raw]
 
   @impl true

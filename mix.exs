@@ -22,8 +22,10 @@ defmodule OpenAI.MixProject do
   # Run "mix help deps" to learn about dependencies.
   defp deps do
     [
+      {:ex_doc, "~> 0.29", only: :dev, runtime: false},
       {:finch, "~> 0.14"},
-      {:ex_doc, "~> 0.29", only: :dev, runtime: false}
+      {:jason, "~> 1.3"},
+      {:hammox, "~> 0.7", only: :test}
     ]
   end
 end

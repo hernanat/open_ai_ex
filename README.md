@@ -1,6 +1,6 @@
 # OpenAI
 
-**TODO: Add description**
+WIP, should be done in the next few days.
 
 ## Installation
 

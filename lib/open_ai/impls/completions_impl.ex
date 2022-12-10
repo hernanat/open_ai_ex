@@ -8,11 +8,9 @@ defmodule OpenAI.CompletionsImpl do
   @impl CompletionsBehaviour
   def create(model, prompt, params)
       when (is_binary(prompt) or is_list(prompt)) and is_list(params) do
-    request_body =
-      Enum.reduce(params, %{model: model, prompt: prompt}, fn {param, value}, result ->
-        Map.put(result, param, value)
-      end)
-
-    OpenAIClient.api_request(:post, :completions, [], request_body)
+    OpenAIClient.api_request(:post, :completions, [], [
+      {:model, model},
+      {:prompt, prompt} | params
+    ])
   end
 end

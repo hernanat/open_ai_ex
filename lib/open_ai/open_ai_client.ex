@@ -8,6 +8,14 @@ defmodule OpenAIClient do
 
   def api_request(method, resource, headers \\ [], params \\ nil, opts \\ [])
 
+  def api_request(method, resource, headers, params, opts) when is_list(params) do
+    if Keyword.keyword?(params) do
+      api_request(method, resource, headers, Enum.into(params, %{}), opts)
+    else
+      {:error, %Error{message: "Expected a keyword list or map for API request params."}}
+    end
+  end
+
   def api_request(_, _, _, %{stream: true}, _),
     do:
       {:error,

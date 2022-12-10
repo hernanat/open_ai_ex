@@ -39,10 +39,11 @@ defmodule OpenAI.Completions do
 
   ## Args
 
+    - `model` - The OpenAI model to use to create the completion.
     - `prompt` - The prompt to create a completion for.
     - `params` - Keyword list of params. See `t:create_params/0`.
   """
-  @spec create(binary(), binary() | [binary()], keyword(create_params())) ::
+  @spec create(binary(), binary() | [binary()], [create_params()]) ::
           {:ok, map()} | {:error, Error.t()}
 
   def create(model, prompt, params \\ [])

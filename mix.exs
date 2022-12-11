@@ -28,8 +28,9 @@ defmodule OpenAI.MixProject do
     [
       {:ex_doc, "~> 0.29", only: :dev, runtime: false},
       {:finch, "~> 0.14"},
+      {:hammox, "~> 0.7", only: :test},
       {:jason, "~> 1.3"},
-      {:hammox, "~> 0.7", only: :test}
+      {:multipart, "~> 0.3"}
     ]
   end
 

@@ -24,22 +24,62 @@ defmodule OpenAIClient do
        }}
 
   def api_request(method, resource, headers, params, opts) do
-    request_url = "#{@base_url}/#{@api_version}/#{resource}"
-    api_key = Application.fetch_env!(:open_ai, :api_key)
-    organization = Application.get_env(:open_ai, :organization, nil)
+    headers = combine_with_auth_headers([{"Content-Type", "application/json"} | headers])
 
-    headers = [
-      {"Authorization", "Bearer #{api_key}"},
-      {"Content-Type", "application/json"} | headers
-    ]
-
-    headers =
-      if organization != nil, do: [{"OpenAI-Organization", organization} | headers], else: headers
-
-    case request(method, request_url, headers, params, opts) do
+    case request(method, request_url(resource), headers, params, opts) do
       {:ok, %Finch.Response{body: body}} -> decode(body)
       {:error, error} -> {:error, error}
     end
+  end
+
+  def multipart_api_request(method, resource, headers \\ [], params \\ nil, opts \\ [])
+
+  def multipart_api_request(method, resource, headers, params, opts) when is_list(params) do
+    if Keyword.keyword?(params) do
+      multipart_api_request(method, resource, headers, Enum.into(params, %{}), opts)
+    else
+      {:error, %Error{message: "Expected a keyword list or map for API request params."}}
+    end
+  end
+
+  def multipart_api_request(:post, resource, headers, %{image: image, mask: mask} = params, opts) do
+    json_body = Map.drop(params, [:image, :mask]) |> Jason.encode!()
+
+    multipart =
+      Multipart.new()
+      |> Multipart.add_part(Multipart.Part.file_field(image, :image))
+      |> Multipart.add_part(Multipart.Part.file_field(mask, :mask))
+      |> Multipart.add_part(
+        Multipart.Part.binary_body(json_body, [{"Content-Type", "application/json"}])
+      )
+
+    do_multi_part_request(:post, resource, headers, multipart, opts)
+  end
+
+  def multipart_api_request(:post, resource, headers, %{image: image} = params, opts) do
+    json_body = Map.drop(params, [:image]) |> Jason.encode!()
+
+    multipart =
+      Multipart.new()
+      |> Multipart.add_part(Multipart.Part.file_field(image, :image))
+      |> Multipart.add_part(
+        Multipart.Part.binary_body(json_body, [{"Content-Type", "application/json"}])
+      )
+
+    do_multi_part_request(:post, resource, headers, multipart, opts)
+  end
+
+  def multipart_api_request(:post, resource, headers, %{file: file} = params, opts) do
+    json_body = Map.drop(params, [:file]) |> Jason.encode!()
+
+    multipart =
+      Multipart.new()
+      |> Multipart.add_part(Multipart.Part.file_field(file, :file))
+      |> Multipart.add_part(
+        Multipart.Part.binary_body(json_body, [{"Content-Type", "application/json"}])
+      )
+
+    do_multi_part_request(:post, resource, headers, multipart, opts)
   end
 
   def request(method, url, headers, nil, opts),
@@ -62,4 +102,29 @@ defmodule OpenAIClient do
         {:ok, object}
     end
   end
+
+  defp combine_with_auth_headers(headers) do
+    api_key = Application.fetch_env!(:open_ai, :api_key)
+    organization = Application.get_env(:open_ai, :organization, nil)
+
+    headers = [{"Authorization", "Bearer #{api_key}"} | headers]
+
+    if organization != nil, do: [{"OpenAI-Organization", organization} | headers], else: headers
+  end
+
+  defp do_multi_part_request(:post, resource, headers, multipart, opts) do
+    body_stream = Multipart.body_stream(multipart)
+    content_type = Multipart.content_type(multipart, "multipart/form-data")
+    content_length = Multipart.content_length(multipart)
+
+    headers =
+      combine_with_auth_headers([
+        {"Content-Type", content_type},
+        {"Content-Length", to_string(content_length)} | headers
+      ])
+
+    request(:post, request_url(resource), headers, {:stream, body_stream}, opts)
+  end
+
+  defp request_url(resource), do: "#{@base_url}/#{@api_version}/#{resource}"
 end

@@ -33,7 +33,10 @@ defmodule OpenAI.Images do
   we do not explain them in detail here.
   """
   @type generate_params ::
-          {:n, integer()} | {:size, dimensions()} | {:response_format, response_format()} | {:user, binary()}
+          {:n, integer()}
+          | {:size, dimensions()}
+          | {:response_format, response_format()}
+          | {:user, binary()}
 
   @doc """
   Generate an image given a prompt. Maximum prompt length is 1000 characters.

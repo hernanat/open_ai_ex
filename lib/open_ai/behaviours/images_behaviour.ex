@@ -5,4 +5,6 @@ defmodule OpenAI.Behaviours.ImagesBehaviour do
   @callback generate(binary(), [Images.generate_params()]) :: {:ok, [map()]} | {:error, Error.t()}
   @callback edit(binary(), binary(), [Images.edit_params()]) ::
               {:ok, [map()]} | {:error, Error.t()}
+  @callback variation(binary(), [Images.variation_params()]) ::
+              {:ok, map()} | {:error, Error.t()}
 end

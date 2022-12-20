@@ -55,6 +55,22 @@ defmodule OpenAI.Images do
           | {:response_format, response_format()}
           | {:user, binary()}
 
+  @typedoc """
+  The parameters allowed for `variation/2`.
+
+  We make no effort to assign defaults, and so if params are left blank they will
+  be set to whatever the OpenAI API defaults are by the server. Consult with the OpenAI
+  documentation for more details.
+
+  The parameters are mapped 1:1 with those that OpenAI offers and so
+  we do not explain them in detail here.
+  """
+  @type variation_params ::
+          {:n, integer()}
+          | {:size, dimensions()}
+          | {:response_format, response_format()}
+          | {:user, binary()}
+
   @doc """
   Generate an image given a prompt. Maximum prompt length is 1000 characters.
   """
@@ -70,6 +86,12 @@ defmodule OpenAI.Images do
   def edit(prompt, image, params \\ [])
       when is_binary(prompt) and is_binary(image) and is_list(params),
       do: impl().edit(prompt, image, params)
+
+  @doc """
+  Creates a variation of a given image.
+  """
+  @spec variation(binary(), [variation_params()]) :: {:ok, map()}
+  def variation(image, params \\ []), do: impl().variation(image, params)
 
   defp impl, do: Application.get_env(:open_ai, :images_impl, OpenAI.ImagesImpl)
 end

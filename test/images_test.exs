@@ -39,4 +39,17 @@ defmodule OpenAI.ImagesTest do
       assert {:ok, _} = Images.edit("add a cat face", "volley.png", [])
     end
   end
+
+  describe "variation/2" do
+    test "creates a variation of the given image" do
+      expect(ImagesImplMock, :variation, fn image, params ->
+        assert image == "volley.png"
+        assert params == []
+
+        {:ok, %{"data" => [%{"url" => "https://theimage.com/url"}]}}
+      end)
+
+      assert {:ok, _} = Images.variation("volley.png", [])
+    end
+  end
 end

@@ -17,4 +17,11 @@ defmodule OpenAI.ImagesImpl do
           {:prompt, prompt},
           {:image, image} | params
         ])
+
+  @impl ImagesBehaviour
+  def variation(image, params \\ []) when is_binary(image) and is_list(params),
+    do:
+      OpenAIClient.multipart_api_request(:post, "images/variations", [], [
+        {:image, image} | params
+      ])
 end

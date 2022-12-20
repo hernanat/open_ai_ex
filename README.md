@@ -13,7 +13,7 @@ Add `open_ai` to your list of dependencies in `mix.exs`:
 ```elixir
 def deps do
   [
-    {:open_ai, "~> 0.1.1"}
+    {:open_ai, "~> 0.1.3"}
   ]
 end
 ```

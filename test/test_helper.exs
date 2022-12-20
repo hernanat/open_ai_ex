@@ -1,4 +1,11 @@
-alias OpenAI.Behaviours.{CompletionsBehaviour, EditsBehaviour, ImagesBehaviour, ModelsBehaviour, EmbeddingsBehaviour}
+alias OpenAI.Behaviours.{
+  CompletionsBehaviour,
+  EditsBehaviour,
+  ImagesBehaviour,
+  ModelsBehaviour,
+  EmbeddingsBehaviour,
+  FilesBehaviour
+}
 
 Hammox.defmock(ModelsImplMock, for: ModelsBehaviour)
 Application.put_env(:open_ai, :models_impl, ModelsImplMock)
@@ -14,5 +21,8 @@ Application.put_env(:open_ai, :images_impl, ImagesImplMock)
 
 Hammox.defmock(EmbeddingsImplMock, for: EmbeddingsBehaviour)
 Application.put_env(:open_ai, :embeddings_impl, EmbeddingsImplMock)
+
+Hammox.defmock(FilesImplMock, for: FilesBehaviour)
+Application.put_env(:open_ai, :files_impl, FilesImplMock)
 
 ExUnit.start()

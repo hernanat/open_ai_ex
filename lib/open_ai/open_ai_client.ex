@@ -43,47 +43,49 @@ defmodule OpenAIClient do
   end
 
   def multipart_api_request(:post, resource, headers, %{image: image, mask: mask} = params, opts) do
-    json_body = Map.drop(params, [:image, :mask]) |> Jason.encode!()
-
     multipart =
-      Multipart.new()
+      Map.drop(params, [:image, :mask])
+      |> build_multipart_request_body()
       |> Multipart.add_part(Multipart.Part.file_field(image, :image))
       |> Multipart.add_part(Multipart.Part.file_field(mask, :mask))
-      |> Multipart.add_part(
-        Multipart.Part.binary_body(json_body, [{"Content-Type", "application/json"}])
-      )
 
     do_multi_part_request(:post, resource, headers, multipart, opts)
   end
 
   def multipart_api_request(:post, resource, headers, %{image: image} = params, opts) do
-    json_body = Map.drop(params, [:image]) |> Jason.encode!()
-
     multipart =
-      Multipart.new()
+      Map.drop(params, [:image])
+      |> build_multipart_request_body()
       |> Multipart.add_part(Multipart.Part.file_field(image, :image))
-      |> Multipart.add_part(
-        Multipart.Part.binary_body(json_body, [{"Content-Type", "application/json"}])
-      )
 
     do_multi_part_request(:post, resource, headers, multipart, opts)
   end
 
   def multipart_api_request(:post, resource, headers, %{file: file} = params, opts) do
-    json_body = Map.drop(params, [:file]) |> Jason.encode!()
-
     multipart =
-      Multipart.new()
+      Map.drop(params, [:file])
+      |> build_multipart_request_body()
       |> Multipart.add_part(Multipart.Part.file_field(file, :file))
-      |> Multipart.add_part(
-        Multipart.Part.binary_body(json_body, [{"Content-Type", "application/json"}])
-      )
 
     do_multi_part_request(:post, resource, headers, multipart, opts)
   end
 
+  defp build_multipart_request_body(params, multipart \\ Multipart.new()) do
+    for {param, value} <- params,
+        reduce: multipart,
+        do:
+          (result ->
+             Multipart.add_part(result, Multipart.Part.text_field(to_string(value), param)))
+  end
+
   def request(method, url, headers, nil, opts),
     do: Finch.build(method, url, headers, nil, opts) |> Finch.request(OpenAI.Finch)
+
+  def request(_, url, headers, {:stream, _} = params, opts) do
+    request = Finch.build("POST", url, headers, params, opts)
+
+    request |> Finch.request(OpenAI.Finch)
+  end
 
   def request(method, url, headers, params, opts),
     do:
@@ -95,8 +97,8 @@ defmodule OpenAIClient do
       %{"error" => error} ->
         {:error, Error.exception(error)}
 
-      %{"data" => data} ->
-        {:ok, data}
+      %{"data" => _data} = result ->
+        {:ok, result}
 
       %{} = object ->
         {:ok, object}
@@ -123,7 +125,10 @@ defmodule OpenAIClient do
         {"Content-Length", to_string(content_length)} | headers
       ])
 
-    request(:post, request_url(resource), headers, {:stream, body_stream}, opts)
+    case request(:post, request_url(resource), headers, {:stream, body_stream}, opts) do
+      {:ok, %Finch.Response{body: body}} -> decode(body)
+      {:error, error} -> {:error, error}
+    end
   end
 
   defp request_url(resource), do: "#{@base_url}/#{@api_version}/#{resource}"

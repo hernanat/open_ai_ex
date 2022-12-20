@@ -38,12 +38,38 @@ defmodule OpenAI.Images do
           | {:response_format, response_format()}
           | {:user, binary()}
 
+  @typedoc """
+  The parameters allowed for `edit/3`.
+
+  We make no effort to assign defaults, and so if params are left blank they will
+  be set to whatever the OpenAI API defaults are by the server. Consult with the OpenAI
+  documentation for more details.
+
+  The parameters are mapped 1:1 with those that OpenAI offers and so
+  we do not explain them in detail here.
+  """
+  @type edit_params ::
+          {:mask, binary()}
+          | {:n, integer()}
+          | {:size, dimensions()}
+          | {:response_format, response_format()}
+          | {:user, binary()}
+
   @doc """
   Generate an image given a prompt. Maximum prompt length is 1000 characters.
   """
   @spec generate(binary(), [generate_params()]) :: {:ok, [map()]} | {:error, Error.t()}
   def generate(prompt, params \\ []) when is_binary(prompt) and is_list(params),
     do: impl().generate(prompt, params)
+
+  @doc """
+  Create an edited or extended image given an original image and a prompt.
+  Maximum prompt lengh is 1000 characters.
+  """
+  @spec edit(binary(), binary(), [edit_params()]) :: {:ok, [map()]} | {:error, Error.t()}
+  def edit(prompt, image, params \\ [])
+      when is_binary(prompt) and is_binary(image) and is_list(params),
+      do: impl().edit(prompt, image, params)
 
   defp impl, do: Application.get_env(:open_ai, :images_impl, OpenAI.ImagesImpl)
 end

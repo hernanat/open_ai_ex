@@ -24,7 +24,7 @@ defmodule OpenAIClientTest do
     end
 
     test "decodes arrays of JSON objects" do
-      assert {:ok, [%{"foo" => "bar"}, %{"biz" => "baz"}]} =
+      assert {:ok, %{"data" => [%{"foo" => "bar"}, %{"biz" => "baz"}]}} =
                OpenAIClient.decode("{\"data\":[{\"foo\":\"bar\"},{\"biz\":\"baz\"}]}")
     end
 

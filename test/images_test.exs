@@ -22,4 +22,21 @@ defmodule OpenAI.ImagesTest do
       assert {:ok, _} = Images.generate("a cute cat", [])
     end
   end
+
+  describe "edit/3" do
+    test "edits the given image according to the prompt" do
+      expect(ImagesImplMock, :edit, fn prompt, image, params ->
+        assert prompt == "add a cat face"
+        assert image == "volley.png"
+        assert params == []
+
+        {:ok,
+         [
+           %{"url" => "https://theimage.com/url"}
+         ]}
+      end)
+
+      assert {:ok, _} = Images.edit("add a cat face", "volley.png", [])
+    end
+  end
 end

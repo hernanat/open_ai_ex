@@ -25,12 +25,12 @@ defmodule OpenAI.Files do
   def delete(id) when is_binary(id), do: impl().delete(id)
 
   @doc """
-  Retrieve the file with the given id."
+  Retrieve the file with the given id.
   """
   def retrieve(id) when is_binary(id), do: impl().retrieve(id)
 
   @doc """
-  Retrieve the contents of the file with the given id."
+  Retrieve the contents of the file with the given id.
   """
   def retrieve_content(id) when is_binary(id), do: impl().retrieve_content(id)
 

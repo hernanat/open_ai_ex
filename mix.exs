@@ -5,13 +5,17 @@ defmodule OpenAI.MixProject do
     [
       app: :open_ai,
       description: "Elixir wrapper for OpenAI's API.",
-      version: "0.1.2",
+      version: "0.1.3",
       elixir: "~> 1.14",
       start_permanent: Mix.env() == :prod,
       deps: deps(),
       name: "OpenAI API Wrapper",
       source_url: "https://github.com/hernanat/open_ai_ex",
-      package: package()
+      package: package(),
+      docs: [
+        main: "readme",
+        extras: ["README.md"]
+      ]
     ]
   end
 

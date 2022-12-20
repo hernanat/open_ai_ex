@@ -1,5 +1,8 @@
 # OpenAI
 
+![Hex.pm](https://img.shields.io/hexpm/v/open_ai)
+![Hex.pm](https://img.shields.io/hexpm/dt/open_ai)
+
 Unofficial / unaffiliated Elixir API wrapper for OpenAI's [API](https://beta.openai.com/docs/introduction).
 
 The implementation is relatively barebones and is designed with extensibility in mind. All

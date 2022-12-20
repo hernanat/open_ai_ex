@@ -11,17 +11,17 @@ defmodule OpenAI.ImagesImpl do
 
   @impl ImagesBehaviour
   def edit(prompt, image, params \\ [])
-      when is_binary(prompt) and is_binary(image) and is_list(params),
-      do:
-        OpenAIClient.multipart_api_request(:post, "images/edits", [], [
-          {:prompt, prompt},
-          {:image, image} | params
-        ])
+      when is_binary(prompt) and is_binary(image) and is_list(params) do
+    OpenAIClient.multipart_api_request(:post, "images/edits", [], [
+      {:prompt, prompt},
+      {:image, image} | params
+    ])
+  end
 
   @impl ImagesBehaviour
-  def variation(image, params \\ []) when is_binary(image) and is_list(params),
-    do:
-      OpenAIClient.multipart_api_request(:post, "images/variations", [], [
-        {:image, image} | params
-      ])
+  def variation(image, params \\ []) when is_binary(image) and is_list(params) do
+    OpenAIClient.multipart_api_request(:post, "images/variations", [], [
+      {:image, image} | params
+    ])
+  end
 end

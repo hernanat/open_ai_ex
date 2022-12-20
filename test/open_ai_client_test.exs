@@ -1,23 +1,6 @@
 defmodule OpenAIClientTest do
   use ExUnit.Case, async: true
 
-  describe "api_request/5" do
-    test "returns an error when `stream: true` is passed in `params`" do
-      assert {:error,
-              %OpenAI.Error{
-                message:
-                  "Streaming server-sent events is not currently supported by this API client."
-              }} =
-               OpenAIClient.api_request(
-                 :post,
-                 :completions,
-                 [],
-                 %{model: "text-davinci-001", prompt: "hello there", stream: true},
-                 []
-               )
-    end
-  end
-
   describe "decode/1" do
     test "decodes JSON objects" do
       assert {:ok, %{"foo" => "bar"}} = OpenAIClient.decode("{\"foo\":\"bar\"}")

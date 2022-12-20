@@ -13,10 +13,7 @@ defmodule OpenAI.ImagesTest do
         assert prompt == "a cute cat"
         assert params == []
 
-        {:ok,
-         [
-           %{"url" => "https://theimage.com/url"}
-         ]}
+        {:ok, %{"data" => [%{"url" => "https://theimage.com/url"}]}}
       end)
 
       assert {:ok, _} = Images.generate("a cute cat", [])
@@ -30,10 +27,7 @@ defmodule OpenAI.ImagesTest do
         assert image == "volley.png"
         assert params == []
 
-        {:ok,
-         [
-           %{"url" => "https://theimage.com/url"}
-         ]}
+        {:ok, %{"data" => [%{"url" => "https://theimage.com/url"}]}}
       end)
 
       assert {:ok, _} = Images.edit("add a cat face", "volley.png", [])

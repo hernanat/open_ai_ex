@@ -74,7 +74,7 @@ defmodule OpenAI.Images do
   @doc """
   Generate an image given a prompt. Maximum prompt length is 1000 characters.
   """
-  @spec generate(binary(), [generate_params()]) :: {:ok, [map()]} | {:error, Error.t()}
+  @spec generate(binary(), [generate_params()]) :: {:ok, map()} | {:error, Error.t()}
   def generate(prompt, params \\ []) when is_binary(prompt) and is_list(params),
     do: impl().generate(prompt, params)
 
@@ -82,7 +82,7 @@ defmodule OpenAI.Images do
   Create an edited or extended image given an original image and a prompt.
   Maximum prompt lengh is 1000 characters.
   """
-  @spec edit(binary(), binary(), [edit_params()]) :: {:ok, [map()]} | {:error, Error.t()}
+  @spec edit(binary(), binary(), [edit_params()]) :: {:ok, map()} | {:error, Error.t()}
   def edit(prompt, image, params \\ [])
       when is_binary(prompt) and is_binary(image) and is_list(params),
       do: impl().edit(prompt, image, params)

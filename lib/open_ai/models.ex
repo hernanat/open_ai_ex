@@ -10,7 +10,7 @@ defmodule OpenAI.Models do
   @doc """
   Lists all available OpenAI models.
   """
-  @spec list() :: {:ok, [map()]} | {:error, Error.t()}
+  @spec list() :: {:ok, map()} | {:error, Error.t()}
   def list, do: impl().list()
 
   @doc """

@@ -13,56 +13,58 @@ defmodule OpenAI.ModelsTest do
     test "lists available OpenAI models" do
       expect(ModelsImplMock, :list, fn ->
         {:ok,
-         [
-           %{
-             "created" => 1_649_358_449,
-             "id" => "babbage",
-             "object" => "model",
-             "owned_by" => "openai",
-             "parent" => nil,
-             "permission" => [
-               %{
-                 "allow_create_engine" => false,
-                 "allow_fine_tuning" => false,
-                 "allow_logprobs" => true,
-                 "allow_sampling" => true,
-                 "allow_search_indices" => false,
-                 "allow_view" => true,
-                 "created" => 1_669_085_501,
-                 "group" => nil,
-                 "id" => "modelperm-49FUp5v084tBB49tC4z8LPH5",
-                 "is_blocking" => false,
-                 "object" => "model_permission",
-                 "organization" => "*"
-               }
-             ],
-             "root" => "babbage"
-           },
-           %{
-             "created" => 1_649_357_491,
-             "id" => "ada",
-             "object" => "model",
-             "owned_by" => "openai",
-             "parent" => nil,
-             "permission" => [
-               %{
-                 "allow_create_engine" => false,
-                 "allow_fine_tuning" => false,
-                 "allow_logprobs" => true,
-                 "allow_sampling" => true,
-                 "allow_search_indices" => false,
-                 "allow_view" => true,
-                 "created" => 1_669_087_301,
-                 "group" => nil,
-                 "id" => "modelperm-xTOEYvDZGN7UDnQ65VpzRRHz",
-                 "is_blocking" => false,
-                 "object" => "model_permission",
-                 "organization" => "*"
-               }
-             ],
-             "root" => "ada"
-           }
-         ]}
+         %{
+           "data" => [
+             %{
+               "created" => 1_649_358_449,
+               "id" => "babbage",
+               "object" => "model",
+               "owned_by" => "openai",
+               "parent" => nil,
+               "permission" => [
+                 %{
+                   "allow_create_engine" => false,
+                   "allow_fine_tuning" => false,
+                   "allow_logprobs" => true,
+                   "allow_sampling" => true,
+                   "allow_search_indices" => false,
+                   "allow_view" => true,
+                   "created" => 1_669_085_501,
+                   "group" => nil,
+                   "id" => "modelperm-49FUp5v084tBB49tC4z8LPH5",
+                   "is_blocking" => false,
+                   "object" => "model_permission",
+                   "organization" => "*"
+                 }
+               ],
+               "root" => "babbage"
+             },
+             %{
+               "created" => 1_649_357_491,
+               "id" => "ada",
+               "object" => "model",
+               "owned_by" => "openai",
+               "parent" => nil,
+               "permission" => [
+                 %{
+                   "allow_create_engine" => false,
+                   "allow_fine_tuning" => false,
+                   "allow_logprobs" => true,
+                   "allow_sampling" => true,
+                   "allow_search_indices" => false,
+                   "allow_view" => true,
+                   "created" => 1_669_087_301,
+                   "group" => nil,
+                   "id" => "modelperm-xTOEYvDZGN7UDnQ65VpzRRHz",
+                   "is_blocking" => false,
+                   "object" => "model_permission",
+                   "organization" => "*"
+                 }
+               ],
+               "root" => "ada"
+             }
+           ]
+         }}
       end)
 
       assert {:ok, _} = Models.list()

@@ -1,7 +1,7 @@
 # OpenAI
 
-![Hex.pm](https://img.shields.io/hexpm/v/open_ai)
-![Hex.pm](https://img.shields.io/hexpm/dt/open_ai)
+[![Hex.pm Version](https://img.shields.io/hexpm/v/open_ai)](https://hex.pm/packages/open_ai)
+[![Hex.pm Download Total](https://img.shields.io/hexpm/dt/open_ai)](https://hex.pm/packages/open_ai)
 
 Unofficial / unaffiliated Elixir API wrapper for OpenAI's [API](https://beta.openai.com/docs/introduction).
 

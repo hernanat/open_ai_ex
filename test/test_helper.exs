@@ -5,7 +5,8 @@ alias OpenAI.Behaviours.{
   ModelsBehaviour,
   EmbeddingsBehaviour,
   FilesBehaviour,
-  FineTunesBehaviour
+  FineTunesBehaviour,
+  ModerationsBehaviour
 }
 
 Hammox.defmock(ModelsImplMock, for: ModelsBehaviour)
@@ -28,5 +29,8 @@ Application.put_env(:open_ai, :files_impl, FilesImplMock)
 
 Hammox.defmock(FineTunesImplMock, for: FineTunesBehaviour)
 Application.put_env(:open_ai, :fine_tunes_impl, FineTunesImplMock)
+
+Hammox.defmock(ModerationsImplMock, for: ModerationsBehaviour)
+Application.put_env(:open_ai, :moderations_impl, ModerationsImplMock)
 
 ExUnit.start()

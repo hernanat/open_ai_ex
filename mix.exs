@@ -33,7 +33,8 @@ defmodule OpenAI.MixProject do
       {:ex_doc, "~> 0.29", only: :dev, runtime: false},
       {:finch, "~> 0.14"},
       {:hammox, "~> 0.7", only: :test},
-      {:jason, "~> 1.3"},
+      {:jason, "~> 1.5.0-alpha.1"},
+      {:jason_native, "~> 0.1.0"},
       {:multipart, "~> 0.3"}
     ]
   end

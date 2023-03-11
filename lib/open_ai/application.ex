@@ -7,9 +7,8 @@ defmodule OpenAI.Application do
 
   @impl true
   def start(_type, _args) do
-    children = [
-      {Finch, name: OpenAI.Finch}
-    ]
+    application_config = Application.get_env(:open_ai, :application, [])
+    children = Keyword.get(application_config, :children, [])
 
     # See https://hexdocs.pm/elixir/Supervisor.html
     # for other strategies and supported options

@@ -31,10 +31,23 @@ defmodule OpenAI.MixProject do
   defp deps do
     [
       {:ex_doc, "~> 0.29", only: :dev, runtime: false},
-      {:finch, "~> 0.14"},
-      {:hammox, "~> 0.7", only: :test},
-      {:jason, "~> 1.3"},
-      {:multipart, "~> 0.3"}
+      {:tesla, "~> 1.5"},
+
+      # http clients
+      {:ibrowse, "4.4.0", optional: true},
+      {:hackney, "~> 1.6", optional: true},
+      {:gun, "~> 1.3", optional: true},
+      {:finch, "~> 0.13", optional: true},
+      {:castore, "~> 0.1 or ~> 1.0", optional: true},
+
+      # json parsers
+      {:jason, ">= 1.0.0", optional: true},
+      {:poison, ">= 1.0.0", optional: true},
+      {:exjsx, ">= 3.0.0", optional: true},
+      {:mint, "~> 1.0", optional: true},
+
+      # testing
+      {:hammox, "~> 0.7", only: :test}
     ]
   end
 
